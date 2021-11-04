@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import { Table, Accordion } from 'react-bootstrap';
+
 //import mockupIssues from '../mockups/issues';
 
 import IssueRow from './IssueRow.js';
@@ -100,6 +101,7 @@ export default class IssueList extends Component {
             }
           });
           // le nouveau state contient les enregistrements récupérés
+          console.log(data.records);
           this.setState({ issues: data.records });
         });
       } else {

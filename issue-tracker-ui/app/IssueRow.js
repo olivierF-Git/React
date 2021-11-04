@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { Link } from 'react-router';
-import { Button, Glyphicon } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+
+import { Button } from 'react-bootstrap';
 
 
 export default class IssueRow extends Component {
@@ -17,6 +18,9 @@ export default class IssueRow extends Component {
   render() {
     // On récupère l'attribut issue dans les props histoire de factoriser
     const {issue} = this.props;
+    if(!issue){
+      return(<tr></tr>)
+    }
     return (
       <tr>
         <td><Link to={`/issues/${issue.id}`}>{issue.id}</Link></td>
@@ -27,7 +31,7 @@ export default class IssueRow extends Component {
         <td>{issue.completionDate ? issue.completionDate.toDateString() : ''}</td>
         <td>{issue.title}</td>
         <td>
-          <Button bsSize="xsmall" onClick={this.onDeleteClick}><Glyphicon glyph="trash" /></Button>
+          <Button bssize="xsmall" onClick={this.onDeleteClick}>Delete</Button>
         </td>
       </tr>
     );
