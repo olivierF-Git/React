@@ -12,6 +12,7 @@ export default class IssueAdd extends Component {
     console.log('==> soumission du formulaire')
     e.preventDefault();
     var form = document.forms.issueAdd;
+    console.log("issue add :",this.props);
     this.props.createIssue(
       {
         owner: form.owner.value,
@@ -25,18 +26,16 @@ export default class IssueAdd extends Component {
     form.title.value = "";
   }
 
+
   render() {
     return (
-      <div>
-        <Form name="issueAdd" onSubmit={this.handleSubmit}>
-          <Form.Control name="owner" placeholder="Owner" />
-          {' '}
-          <Form.Control name="title" placeholder="Title" />
-          {' '}
-          <Button type="submit" bsstyle="primary">Add</Button>
-          <Button type="button" bsstyle="primary" onClick={close}>Cancel</Button>
-        </Form>
-      </div>
+      <Form name="issueAdd" onSubmit={this.handleSubmit}>
+        <Form.Control name="owner" placeholder="Owner" />
+        {' '}
+        <Form.Control name="title" placeholder="Title" />
+        {' '}
+        <Button type="submit" bsstyle="primary">Add</Button>
+      </Form>
     )
   }
 }

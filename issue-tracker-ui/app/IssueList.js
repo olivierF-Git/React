@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
+import Popup from 'reactjs-popup';
 
 import { Table, Accordion } from 'react-bootstrap';
 
@@ -10,10 +11,11 @@ import IssueAdd from './IssueAdd.js';
 import IssueFilter from './IssueFilter.js';
 
 
+
 // Un composant plus classique avec un return,
 // indispensable lorsque la fonction comprend plus d'une instruction
 function IssueTable(props) {
-  const issueRows = props.issues.map(issue => <IssueRow key={issue.id} issue={issue} deleteIssue={props.deleteIssue}/>)
+  const issueRows = props.issues.map(issue => <IssueRow key={issue.id} issue={issue} deleteIssue={props.deleteIssue} />)
   return (
     <Table bordered hover responsive>
       <thead>
@@ -38,6 +40,19 @@ IssueTable.propTypes = {
   deleteIssue: PropTypes.func.isRequired,
 };
 
+function ShowPopup(props){
+  console.log("test des props", props);
+  return(
+  <Popup trigger={<button> Create Issue</button>} position="right center">
+    <IssueAdd createIssue={props.createIssue} />
+  </Popup>
+  );
+}
+
+ShowPopup.propTypes = {
+  createIssue: PropTypes.func.isRequired,
+};
+
 export default class IssueList extends Component {
   // On définit le state dans le constructeur
   constructor() {
@@ -55,7 +70,7 @@ export default class IssueList extends Component {
   }
 
   showError(message) {
-    this.setState({ toastVisible: true, toastMessage: message, toastType:'danger' });
+    this.setState({ toastVisible: true, toastMessage: message, toastType: 'danger' });
   }
 
   dismissToast() {
@@ -74,8 +89,8 @@ export default class IssueList extends Component {
     const oldQuery = prevProps.location;
     const newQuery = this.props.location;
     if (oldQuery.state === newQuery.state
-        && oldQuery.effort_gte === newQuery.effort_gte
-        && oldQuery.effort_lte === newQuery.effort_lte) {
+      && oldQuery.effort_gte === newQuery.effort_gte
+      && oldQuery.effort_lte === newQuery.effort_lte) {
       return;
     }
     this.loadData();
@@ -87,9 +102,9 @@ export default class IssueList extends Component {
     console.log('Loading data from : ' + `/api/issues${this.props.location.search}`);
     fetch(`/api/issues${this.props.location.search}`, {
       method: 'GET',
-      headers: { 
-        'Accept' : 'application/json'
-     }
+      headers: {
+        'Accept': 'application/json'
+      }
     }).then(response => {
       if (response.ok) {
         response.json().then(data => {
@@ -119,9 +134,9 @@ export default class IssueList extends Component {
   createIssue(newIssue) {
     fetch('/api/issues', {
       method: 'POST',
-      headers: { 
+      headers: {
         'Content-Type': 'application/json'
-     },
+      },
       body: JSON.stringify(newIssue),
     }).then(response => {
       if (response.ok) {
@@ -155,9 +170,10 @@ export default class IssueList extends Component {
   }
 
   deleteIssue(id) {
-    fetch(`/api/issues/${id}`, { 
-      method: 'DELETE'}).then(response => {
-      if (!response.ok){
+    fetch(`/api/issues/${id}`, {
+      method: 'DELETE'
+    }).then(response => {
+      if (!response.ok) {
         alert('Failed to delete issue');
       } else {
         this.loadData();
@@ -165,12 +181,16 @@ export default class IssueList extends Component {
     });
   }
 
+
   render() {
     return (
       <div>
-        <IssueTable issues={this.state.issues} deleteIssue={this.deleteIssue}/>
+        <IssueTable issues={this.state.issues} deleteIssue={this.deleteIssue} />
         <hr />
-        <IssueAdd createIssue={this.createIssue}/>
+        <ShowPopup createIssue={this.createIssue}/>
+        {
+          //<IssueAdd createIssue={this.createIssue} />
+        }
       </div>
     );
   }

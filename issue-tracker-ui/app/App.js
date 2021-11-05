@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { render } from 'react-dom';
 import { withRouter } from 'react-router';
 import { BrowserRouter as Router, Route, Redirect, Switch, Link } from 'react-router-dom';
@@ -8,39 +8,50 @@ import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Glyphicon, Container } fro
 import IssueList from './IssueList.js';
 import IssueEdit from './IssueEdit.js';
 
+import IssueAdd from './IssueAdd.js';
+
 const NoMatch = () => <p>Page Not Found</p>;
 
-const Header = () => (
-   <Navbar>
-     <Container>
-       <Navbar.Brand>Issue Tracker</Navbar.Brand>
-     </Container>
-     <Nav>
-       <Link to="/issues">
-         <Nav.Item>Issues</Nav.Item>
-       </Link>
-       <Link to="/reports">
-         <Nav.Item>Reports</Nav.Item>
-       </Link>
-     </Nav>
-     <Nav align="end">
-       <NavItem> Create Issue</NavItem>
-       <NavDropdown id="user-dropdown">
-         <MenuItem>Logout</MenuItem>
-       </NavDropdown>
-     </Nav>
-   </Navbar>
-);
 
-const App = (props) => (
-  <div>
-    <Header />
-    <div className="container-fluid">
-      {props.children}
-      <hr />
+const Header = () => {
+  return (
+    <Navbar>
+      <Container>
+        <Navbar.Brand>Issue Tracker</Navbar.Brand>
+      </Container>
+      <Nav>
+        <Link to="/issues">
+          <Nav.Item>Issues</Nav.Item>
+        </Link>
+        <Link to="/reports">
+          <Nav.Item>Reports</Nav.Item>
+        </Link>
+      </Nav>
+      <Nav align="end">
+        <Nav.Item>
+           Create Issue
+        </Nav.Item>
+        <NavDropdown id="user-dropdown">
+          <MenuItem>Logout</MenuItem>
+        </NavDropdown>
+      </Nav>
+    </Navbar>
+  )
+};
+
+const App = (props) => {
+  return (
+    <div>
+      <Header />
+      <div className="container-fluid">
+        {props.children}
+        <hr />
+      </div>
     </div>
-  </div>
-);
+  )
+
+
+};
 
 App.propTypes = {
   children: PropTypes.object.isRequired,
@@ -51,7 +62,7 @@ const RoutedApp = () => (
     <Redirect from="/" to="/issues" />
     <Route path="/" component={App} />
     <Switch>
-      <Route path="/issues" component={withRouter(IssueList)} />
+      <Route path="/issues" component={IssueList} />
       <Route path="/issues/:id" component={IssueEdit} />
       <Route path="*" component={NoMatch} />
     </Switch>
