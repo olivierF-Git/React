@@ -1,14 +1,11 @@
 import PropTypes from 'prop-types';
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { render } from 'react-dom';
-import { withRouter } from 'react-router';
 import { BrowserRouter as Router, Route, Redirect, Switch, Link } from 'react-router-dom';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Glyphicon, Container } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, MenuItem, Container } from 'react-bootstrap';
 
 import IssueList from './IssueList.js';
 import IssueEdit from './IssueEdit.js';
-
-import IssueAdd from './IssueAdd.js';
 
 const NoMatch = () => <p>Page Not Found</p>;
 

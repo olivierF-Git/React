@@ -12,7 +12,6 @@ export default class IssueAdd extends Component {
     console.log('==> soumission du formulaire')
     e.preventDefault();
     var form = document.forms.issueAdd;
-    console.log("issue add :",this.props);
     this.props.createIssue(
       {
         owner: form.owner.value,

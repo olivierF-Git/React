@@ -1,13 +1,20 @@
 import PropTypes from 'prop-types';
-import React, { Component, useEffect } from 'react';
+import React, { Component } from 'react';
 import Popup from 'reactjs-popup';
 
-import { Table, Accordion } from 'react-bootstrap';
+import { Table, Form } from 'react-bootstrap';
+
+//import 'reactjs-popup/dist/index.css';
 
 //import mockupIssues from '../mockups/issues';
 
 import IssueRow from './IssueRow.js';
 import IssueAdd from './IssueAdd.js';
+/**
+ * TODO LIST
+ * 05/11/21
+ * Importer issue filter et corriger les erreurs
+ */
 import IssueFilter from './IssueFilter.js';
 
 
@@ -40,12 +47,11 @@ IssueTable.propTypes = {
   deleteIssue: PropTypes.func.isRequired,
 };
 
-function ShowPopup(props){
-  console.log("test des props", props);
-  return(
-  <Popup trigger={<button> Create Issue</button>} position="right center">
-    <IssueAdd createIssue={props.createIssue} />
-  </Popup>
+function ShowPopup(props) {
+  return (
+    <Popup trigger={<button> Create Issue</button>} position="right center">
+      <IssueAdd createIssue={props.createIssue} />
+    </Popup>
   );
 }
 
@@ -185,12 +191,15 @@ export default class IssueList extends Component {
   render() {
     return (
       <div>
+        {
+          <Form>
+            <IssueFilter setFilter={this.setFilter} initFilter={this.props}/>
+          </Form>
+        }
+        <hr />
         <IssueTable issues={this.state.issues} deleteIssue={this.deleteIssue} />
         <hr />
-        <ShowPopup createIssue={this.createIssue}/>
-        {
-          //<IssueAdd createIssue={this.createIssue} />
-        }
+        <ShowPopup createIssue={this.createIssue} />
       </div>
     );
   }

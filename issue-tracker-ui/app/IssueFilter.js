@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { Col, Container, Row, ControlLabel, InputGroup, ButtonToolbar, Button, Form } from 'react-bootstrap';
+import { Col, Container, Row, InputGroup, ButtonToolbar, Button, Form, ButtonGroup } from 'react-bootstrap';
 
 /*
  * Composant de filtrage
@@ -89,16 +89,17 @@ export default class IssueFilter extends Component {
       <Container>
         <Row>
           <Col xs={6} sm={4} md={3} lg={2}>
+
             <Form.Group>
               <Form.Label>Status</Form.Label>
-              <Form.Control componentClass="select" value={this.state.status} onChange={this.onChangeStatus}>
+              <Form.Select value={this.state.status} onChange={this.onChangeStatus}>
                 <option value="">(Any)</option>
                 <option value="New">New</option>
                 <option value="Open">Open</option>
                 <option value="Assigned">Assigned</option>
                 <option value="In Progress">In Progress</option>
                 <option value="Done">Done</option>
-              </Form.Control>
+              </Form.Select>
             </Form.Group>
           </Col>
           <Col xs={6} sm={4} md={3} lg={2}>
@@ -106,7 +107,7 @@ export default class IssueFilter extends Component {
               <Form.Label>Effort</Form.Label>
               <InputGroup>
                 <Form.Control value={this.state.effort_gte} onChange={this.onChangeEffortGte} />
-                <InputGroup.Addon>-</InputGroup.Addon>
+                <InputGroup.Text>-</InputGroup.Text>
                 <Form.Control value={this.state.effort_lte} onChange={this.onChangeEffortLte} />
               </InputGroup>
             </Form.Group>
@@ -115,9 +116,11 @@ export default class IssueFilter extends Component {
             <Form.Group>
               <Form.Label>&nbsp;</Form.Label>
               <ButtonToolbar>
-                <Button bsStyle="primary" onClick={this.applyFilter}>Apply</Button>
-                <Button onClick={this.resetFilter} disabled={!this.state.changed}>Reset</Button>
-                <Button onClick={this.clearFilter}>Clear</Button>
+                <ButtonGroup>
+                  <Button onClick={this.applyFilter}>Apply</Button>
+                  <Button onClick={this.resetFilter} disabled={!this.state.changed}>Reset</Button>
+                  <Button onClick={this.clearFilter}>Clear</Button>
+                </ButtonGroup>
               </ButtonToolbar>
             </Form.Group>
           </Col>
